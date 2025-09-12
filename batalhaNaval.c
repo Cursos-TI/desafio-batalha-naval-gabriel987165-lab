@@ -1,45 +1,61 @@
 #include <stdio.h>
 
 int main() {
-    int tabuleiro[10][10] = {0}; 
-    int tamanho_navio = 3;
+    char linha[10] = {'A','B','C','D','E','F','G','H','I','J'};
+    int tabuleiro[10][10];
 
-    
-    int linha_h = 1, coluna_h = 2;
-    for (int i = 0; i < tamanho_navio; i++) {
-        tabuleiro[linha_h][coluna_h + i] = 3;
+  
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            tabuleiro[i][j] = 0;
+        }
     }
 
-    
-    int linha_v = 5, coluna_v = 7;
-    for (int i = 0; i < tamanho_navio; i++) {
-        tabuleiro[linha_v + i][coluna_v] = 3;
+ 
+    int cruz_base_linha = 3, cruz_base_col = 2;
+    int oct_base_linha   = 0, oct_base_col   = 5; 
+    int cone_base_linha  = 7, cone_base_col  = 0; 
+
+    //CRUZ
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 5; c++) {
+            if (r == 1 || c == 2) {
+                tabuleiro[cruz_base_linha + r][cruz_base_col + c] = 3;
+            }
+        }
     }
 
-    
-    int linha_d1 = 0, coluna_d1 = 0;
-    for (int i = 0; i < tamanho_navio; i++) {
-        tabuleiro[linha_d1 + i][coluna_d1 + i] = 3;
+
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 5; c++) {
+            int dr = r - 1; if (dr < 0) dr = -dr;
+            int dc = c - 2; if (dc < 0) dc = -dc;
+            if (dr + dc <= 1) {
+                tabuleiro[oct_base_linha + r][oct_base_col + c] = 3;
+            }
+        }
     }
 
    
-    int linha_d2 = 0, coluna_d2 = 9;
-    for (int i = 0; i < tamanho_navio; i++) {
-        tabuleiro[linha_d2 + i][coluna_d2 - i] = 3;
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 5; c++) {
+            int dc = c - 2; if (dc < 0) dc = -dc;
+            if (dc <= r) {
+                tabuleiro[cone_base_linha + r][cone_base_col + c] = 3;
+            }
+        }
     }
 
-    
+
     printf("   ");
-    for (char c = 'A'; c <= 'J'; c++) {
-        printf("%c ", c);
-    }
+    for (int j = 0; j < 10; j++) printf("%2d", j);
     printf("\n");
 
-    
+
     for (int i = 0; i < 10; i++) {
-        printf("%2d ", i + 1);
+        printf("%c ", linha[i]);
         for (int j = 0; j < 10; j++) {
-            printf("%d ", tabuleiro[i][j]);
+            printf("%2d", tabuleiro[i][j]);
         }
         printf("\n");
     }
